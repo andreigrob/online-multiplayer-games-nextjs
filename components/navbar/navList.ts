@@ -1,3 +1,3 @@
-export const menuItems = ["Home", "Game", "About"];
+export const menuItems = ['Home', 'Game', 'About'];
 
-export const menuURL = ["/", "/game", "/about"];
+export const menuURL = ['/', '/game', '/about'];

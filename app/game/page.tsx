@@ -1,9 +1,9 @@
 function Game() {
-    return (
-        <>
-            Signed in <br />
-        </>
-    );
+	return (
+		<>
+			Signed in <br />
+		</>
+	);
 }
 
 export default Game;
