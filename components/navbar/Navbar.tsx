@@ -17,7 +17,7 @@ import { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
 import AvatarComponent from './Avatar';
 
-const Nav = () => {
+function Nav() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const { data: session } = useSession();
@@ -42,9 +42,7 @@ const Nav = () => {
 				>
 					{menuItems.map((item, index) => (
 						<NavbarItem key={`${item}-${index}`}>
-							<Link color="foreground" href={menuURL[index]}>
-								{item}
-							</Link>
+							<Link href={menuURL[index]}>{item}</Link>
 						</NavbarItem>
 					))}
 				</NavbarContent>
@@ -59,8 +57,10 @@ const Nav = () => {
 							<Button
 								as={Link}
 								color="primary"
-								onClick={() =>
-									signIn('google', { callbackUrl: '/game' })
+								onClick={async () =>
+									await signIn('google', {
+										callbackUrl: '/game'
+									})
 								}
 								variant="flat"
 							>
@@ -73,22 +73,15 @@ const Nav = () => {
 				<NavbarMenu>
 					{menuItems.map((item, index) => (
 						<NavbarMenuItem key={`${item}-${index}`}>
-							<Link
-								color="foreground"
-								className="w-full"
-								href={menuURL[index]}
-								size="lg"
-							>
+							<Link className="w-full" href={menuURL[index]}>
 								{item}
 							</Link>
 						</NavbarMenuItem>
 					))}
 					<NavbarMenuItem>
 						<Link
-							color="primary"
 							className="w-full"
 							href="/api/auth/signin?callbackUrl=%2Fgame"
-							size="lg"
 						>
 							Login
 						</Link>
@@ -97,6 +90,6 @@ const Nav = () => {
 			</Navbar>
 		</>
 	);
-};
+}
 
 export default Nav;
