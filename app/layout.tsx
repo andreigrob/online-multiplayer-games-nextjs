@@ -21,11 +21,11 @@ export default async function RootLayout({
 
 	return (
 		<html lang="en" className="light">
-			<body className={inter.className}>
+			<body className={`${inter.className} flex flex-col`}>
 				<NextProvider>
 					<AuthProvider session={session}>
 						<Navbar />
-						{children}
+						<main className="w-2/3 mx-auto"> {children}</main>
 					</AuthProvider>
 				</NextProvider>
 			</body>

@@ -59,20 +59,18 @@ export default function AvatarComponent() {
 			);
 		} else {
 			return (
-				<NavbarItem>
-					<Button
-						as={Link}
-						color="primary"
-						onClick={async () =>
-							await signIn('google', {
-								callbackUrl: '/game'
-							})
-						}
-						variant="flat"
-					>
-						Login
-					</Button>
-				</NavbarItem>
+				<Button
+					as={Link}
+					color="primary"
+					onClick={async () =>
+						await signIn('google', {
+							callbackUrl: '/game'
+						})
+					}
+					variant="flat"
+				>
+					Login
+				</Button>
 			);
 		}
 	}

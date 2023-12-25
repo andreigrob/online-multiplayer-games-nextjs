@@ -7,9 +7,10 @@ import {
 	NavbarItem,
 	NavbarMenuToggle,
 	NavbarMenu,
-	Link,
 	NavbarMenuItem
 } from '@nextui-org/react';
+
+import Link from 'next/link';
 
 import { useState } from 'react';
 
@@ -20,29 +21,33 @@ function Nav() {
 
 	return (
 		<>
-			<Navbar onMenuOpenChange={setIsMenuOpen}>
-				<NavbarContent>
+			<nav className="hidden md:flex flex-row w-2/3 justify-between items-center mx-auto my-4">
+				<Link href="/" className="font-bold text-inherit">
+					Game Platform
+				</Link>
+				<ul className="hidden sm:flex gap-4">
+					{menuItems.map((item, index) => (
+						<li className='ml-4' key={`${item}-${index}`}>
+							<Link className=" text-black" href={menuURL[index]}>
+								{item}
+							</Link>
+						</li>
+					))}
+				</ul>
+				<AvatarComponent />
+			</nav>
+			<Navbar className="md:hidden" onMenuOpenChange={setIsMenuOpen}>
+				<NavbarContent className="w-full">
 					<NavbarMenuToggle
 						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-						className="sm:hidden"
 					/>
 					<NavbarBrand>
-						<a href="/" className="font-bold text-inherit">
+						<Link href="/" className="font-bold text-inherit">
 							Game Platform
-						</a>
+						</Link>
 					</NavbarBrand>
 				</NavbarContent>
 
-				<NavbarContent
-					className="hidden sm:flex gap-4"
-					justify="center"
-				>
-					{menuItems.map((item, index) => (
-						<NavbarItem key={`${item}-${index}`}>
-							<Link href={menuURL[index]}>{item}</Link>
-						</NavbarItem>
-					))}
-				</NavbarContent>
 				<NavbarContent justify="end">
 					<AvatarComponent />
 				</NavbarContent>
@@ -55,14 +60,6 @@ function Nav() {
 							</Link>
 						</NavbarMenuItem>
 					))}
-					<NavbarMenuItem>
-						<Link
-							className="w-full"
-							href="/api/auth/signin?callbackUrl=%2Fgame"
-						>
-							Login
-						</Link>
-					</NavbarMenuItem>
 				</NavbarMenu>
 			</Navbar>
 		</>
