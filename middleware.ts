@@ -14,8 +14,21 @@ export default async function middleware(req: NextRequest) {
 		req,
 		secret: process.env.NEXTAUTH_SECRET
 	});
+	const protectedList = ['/game', '/userPage'];
+	const isProtected = protectedList.includes(path);
 
-	const isProtected = path.includes('/game');
+	/*	const isProtected = () => {
+
+		protectedList.forEach( (x) => {
+		if (path.includes(x)) {
+			return true;
+		}
+
+	});*/
+	console.log(path);
+	console.log(path.length);
+	console.log(isProtected);
+	//const isProtected = path.includes('/game') || path.includes('/userPage');
 
 	if (!session && isProtected) {
 		return NextResponse.redirect(new URL('/', req.url));

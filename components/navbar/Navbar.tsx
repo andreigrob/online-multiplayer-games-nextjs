@@ -8,19 +8,16 @@ import {
 	NavbarMenuToggle,
 	NavbarMenu,
 	Link,
-	Button,
 	NavbarMenuItem
 } from '@nextui-org/react';
 
 import { useState } from 'react';
 
-import { useSession, signIn } from 'next-auth/react';
 import AvatarComponent from './Avatar';
 
 function Nav() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-	const { data: session } = useSession();
 	return (
 		<>
 			<Navbar onMenuOpenChange={setIsMenuOpen}>
@@ -47,27 +44,7 @@ function Nav() {
 					))}
 				</NavbarContent>
 				<NavbarContent justify="end">
-					{session ? (
-						<AvatarComponent
-							email={session.user?.email!}
-							imageUrl={session.user?.image!}
-						/>
-					) : (
-						<NavbarItem>
-							<Button
-								as={Link}
-								color="primary"
-								onClick={async () =>
-									await signIn('google', {
-										callbackUrl: '/game'
-									})
-								}
-								variant="flat"
-							>
-								Login
-							</Button>
-						</NavbarItem>
-					)}
+					<AvatarComponent />
 				</NavbarContent>
 
 				<NavbarMenu>
