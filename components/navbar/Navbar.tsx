@@ -16,24 +16,32 @@ import { useState } from 'react';
 
 import AvatarComponent from './Avatar';
 
-function Nav() {
+export default function Nav() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	return (
 		<>
 			<nav className="hidden md:flex flex-row w-2/3 justify-between items-center mx-auto my-4">
-				<Link href="/" className="font-bold text-inherit">
+				<Link
+					href="/"
+					className="font-bold text-inherit font-sans text-xl"
+				>
 					Game Platform
 				</Link>
-				<ul className="hidden sm:flex gap-4">
-					{menuItems.map((item, index) => (
-						<li className='ml-4' key={`${item}-${index}`}>
-							<Link className=" text-black" href={menuURL[index]}>
-								{item}
-							</Link>
-						</li>
-					))}
-				</ul>
+				<div className="flex flex-col items-end font-sans text-xl">
+					<ul className="hidden sm:flex gap-5">
+						{menuItems.map((item, index) => (
+							<li key={`${item}-${index}`}>
+								<Link
+									className=" text-black"
+									href={menuURL[index]}
+								>
+									{item}
+								</Link>
+							</li>
+						))}
+					</ul>
+				</div>
 				<AvatarComponent />
 			</nav>
 			<Navbar className="md:hidden" onMenuOpenChange={setIsMenuOpen}>
@@ -65,5 +73,3 @@ function Nav() {
 		</>
 	);
 }
-
-export default Nav;

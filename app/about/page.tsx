@@ -1,3 +1,3 @@
 export default function About() {
-	return <div>About</div>;
+	return <div className="flex flex-col items-center">About Page</div>;
 }

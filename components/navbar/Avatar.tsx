@@ -3,8 +3,6 @@ import {
 	DropdownTrigger,
 	Dropdown,
 	DropdownMenu,
-	Avatar,
-	NavbarItem,
 	Link,
 	Button
 } from '@nextui-org/react';
