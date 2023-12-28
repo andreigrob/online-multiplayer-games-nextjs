@@ -4,20 +4,29 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-async function createGame(player1: string, player2: string, gameType: number) {
-	await prisma.game.create({
-		data: { player1: player1, player2: player2, gameType: gameType }
+async function createGame(id: string, gameType: number) {
+	const timeAvailable = 60 * 1000;
+	let currentTime = new Date(Date.now() + timeAvailable);
+	await prisma.availableUsers.upsert({
+		where: {
+			id: id,
+			gameType: gameType
+		},
+		update: {
+			available: currentTime
+		},
+		create: { id: id, available: currentTime, gameType: gameType }
 	});
 }
 
 export async function POST(request: NextRequest) {
-	const { player1, player2, gameType } = await request.json();
+	const { id, gameType } = await request.json();
 
-	return await createGame(player1, player2, Number.parseInt(gameType))
+	return await createGame(id, gameType)
 		.then(async () => {
 			await prisma.$disconnect();
 			return NextResponse.json(
-				{ message: 'Game created' },
+				{ message: 'User available.' },
 				{ status: 200 }
 			);
 		})
@@ -25,7 +34,7 @@ export async function POST(request: NextRequest) {
 			console.error(e);
 			await prisma.$disconnect();
 			return NextResponse.json(
-				{ message: 'Game not created' },
+				{ message: 'Error updating user availability.' },
 				{ status: 400 }
 			);
 		});

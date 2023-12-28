@@ -65,13 +65,16 @@ model Game {
 }
 
 model GameList {
-  id   Int    @id @default(autoincrement())
-  name String @db.VarChar(255)
-  Game Game[]
+  id             Int              @id @default(autoincrement())
+  name           String           @db.VarChar(255)
+  AvailableUsers AvailableUsers[]
+  Game           Game[]
 }
 
 model AvailableUsers {
   id        String    @id
   available DateTime? @db.Timestamp(6)
+  gameType  Int
+  GameList  GameList  @relation(fields: [gameType], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User      User      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
