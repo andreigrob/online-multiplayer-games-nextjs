@@ -1,12 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { chessBoard } from '@/components/chess/chess';
 
 const prisma = new PrismaClient();
 
 async function createGame(player1: string, player2: string, gameType: number) {
+	let currentTime = new Date();
 	await prisma.game.create({
-		data: { player1: player1, player2: player2, gameType: gameType }
+		data: {
+			player1: player1,
+			player2: player2,
+			gameType: gameType,
+			started: currentTime
+		}
 	});
+	let createdGame1 = await prisma.game.findFirst({
+		where: {
+			AND: {
+				player1: player1,
+				player2: player2,
+				gameType: gameType,
+				started: currentTime
+			}
+		}
+	});
+	if (createdGame1?.id) {
+		if (gameType == 1) {
+			// chess
+			await prisma.boards.create({
+				data: {
+					id: createdGame1.id,
+					turn: 1,
+					board: JSON.stringify(chessBoard)
+				}
+			});
+		}
+	}
 }
 
 export async function POST(request: NextRequest) {

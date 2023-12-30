@@ -59,6 +59,8 @@ model Game {
   player1                 String   @db.VarChar(255)
   player2                 String   @db.VarChar(255)
   gameType                Int
+  started                 DateTime @db.Timestamp(6)
+  Boards                  Boards?
   GameList                GameList @relation(fields: [gameType], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User_Game_player1ToUser User     @relation("Game_player1ToUser", fields: [player1], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User_Game_player2ToUser User     @relation("Game_player2ToUser", fields: [player2], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -77,4 +79,11 @@ model AvailableUsers {
   gameType  Int
   GameList  GameList  @relation(fields: [gameType], references: [id], onDelete: NoAction, onUpdate: NoAction)
   User      User      @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Boards {
+  id    Int    @id
+  turn  Int
+  board String
+  Game  Game   @relation(fields: [id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

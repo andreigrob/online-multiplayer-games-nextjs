@@ -25,7 +25,7 @@ export default async function RootLayout({
 				<NextProvider>
 					<AuthProvider session={session}>
 						<Navbar />
-						<main className="w-2/3 mx-auto"> {children}</main>
+						<main className="w-2/3 mx-auto">{children}</main>
 					</AuthProvider>
 				</NextProvider>
 			</body>

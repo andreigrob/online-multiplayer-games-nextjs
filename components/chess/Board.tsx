@@ -1,7 +1,7 @@
 import BoardSquare from './BoardSquare';
 import { ChessSquareColor } from './BoardTypes';
 
-export default function ChessBoard() {
+export default function ChessBoard({ pieces }: { pieces: string[][] }) {
 	return (
 		<div className="flex flex-col">
 			{Array.from(Array(8).keys()).map((column) => {
@@ -10,6 +10,7 @@ export default function ChessBoard() {
 						{Array.from(Array(8).keys()).map((row) => {
 							return (
 								<BoardSquare
+									text={pieces[column][row]}
 									color={
 										(row + (column % 2)) % 2 == 0
 											? ChessSquareColor.White
