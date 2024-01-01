@@ -1,15 +1,14 @@
 'use client';
-import { useSession, signIn } from 'next-auth/react';
+import {useSession} from 'next-auth/react';
 
-export default function UserPage() {
-	const { data: session } = useSession();
+export default function UserPage(): React.JSX.Element {
+	const info = useSession();
+	const user = info.data?.user;
 	return (
 		<div className="flex flex-col items-center">
-			Signed in <br />
-			{session?.user?.name}
-			<br />
-			{session?.user?.email}
-			<br />
+			<p>Signed in</p>
+			<p>{user?.name}</p>
+			<p>{user?.email}</p>
 		</div>
 	);
 }

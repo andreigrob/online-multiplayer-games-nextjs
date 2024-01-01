@@ -1,21 +1,20 @@
+'use client';
 import {
 	DropdownItem,
 	DropdownTrigger,
 	Dropdown,
 	DropdownMenu,
-	Link,
 	Button
 } from '@nextui-org/react';
 import Image from 'next/image';
-import { signOut } from 'next-auth/react';
-import { useSession, signIn } from 'next-auth/react';
+import {useSession, signIn, signOut} from 'next-auth/react';
+import Link from 'next/link';
 
-export default function AvatarComponent() {
-	const { data: session } = useSession();
+export default function AvatarComponent(): React.JSX.Element {
+	const {data: session} = useSession();
 	{
 		if (session) {
-			var email = session.user?.email!;
-			var imageUrl = session.user?.image!;
+			let user = session.user;
 			return (
 				<Dropdown placement="bottom-end">
 					<DropdownTrigger>
@@ -32,7 +31,7 @@ export default function AvatarComponent() {
 								}}
 							/> */}
 						<Image
-							src={imageUrl}
+							src={user?.image!}
 							width={40}
 							height={40}
 							alt="Avatar"
@@ -42,7 +41,7 @@ export default function AvatarComponent() {
 					<DropdownMenu aria-label="Profile Actions" variant="flat">
 						<DropdownItem key="profile" className="h-14 gap-2">
 							<p className="font-semibold">Signed in as</p>
-							<p className="font-semibold">{email}</p>
+							<p className="font-semibold">{user?.email!}</p>
 						</DropdownItem>
 						<DropdownItem key="settings">My Settings</DropdownItem>
 						<DropdownItem

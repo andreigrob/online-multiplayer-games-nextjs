@@ -1,75 +1,48 @@
-'use client';
-import { menuItems, menuURL } from './navList';
+import {menuI} from './navList';
 import {
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
-	NavbarMenuToggle,
-	NavbarMenu,
-	NavbarMenuItem
+	Button
 } from '@nextui-org/react';
 
 import Link from 'next/link';
 
-import { useState } from 'react';
-
 import AvatarComponent from './Avatar';
+import NavMenu from './NavMenu';
 
-export default function Nav() {
-	const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+export default function Nav(): React.JSX.Element {
+	let str: string;
 	return (
-		<>
-			<nav className="hidden md:flex flex-row w-2/3 justify-between items-center mx-auto my-4">
-				<Link
-					href="/"
-					className="font-bold text-inherit font-sans text-xl"
-				>
-					Game Platform
-				</Link>
-				<div className="flex flex-col items-end font-sans text-xl">
-					<ul className="hidden sm:flex gap-5">
-						{menuItems.map((item, index) => (
-							<li key={`${item}-${index}`}>
-								<Link
-									className=" text-black"
-									href={menuURL[index]}
-								>
-									{item}
-								</Link>
-							</li>
-						))}
-					</ul>
-				</div>
-				<AvatarComponent />
-			</nav>
-			<Navbar className="md:hidden" onMenuOpenChange={setIsMenuOpen}>
-				<NavbarContent className="w-full">
-					<NavbarMenuToggle
-						aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-					/>
-					<NavbarBrand>
-						<Link href="/" className="font-bold text-inherit">
-							Game Platform
-						</Link>
-					</NavbarBrand>
-				</NavbarContent>
-
+		<div className="w-full font-sans text-xl mx-auto my-4 items-end">
+			<Navbar className="w-full">
+				<NavbarBrand>
+					<Link href="/" className="font-bold">
+						Game Platform
+					</Link>
+				</NavbarBrand>
 				<NavbarContent justify="end">
+					<div className="hidden md:flex">
+						{menuI.map((item, index) => (
+							<NavbarItem key={(str = `${item.name}-${index}`)}>
+								<Button
+									key={str}
+									as={Link}
+									className=" text-black mx-5"
+									href={item.url}
+								>
+									{item.name}
+								</Button>
+							</NavbarItem>
+						))}
+					</div>
+					<div className="md:hidden">
+						<NavMenu />
+					</div>
 					<AvatarComponent />
 				</NavbarContent>
-
-				<NavbarMenu>
-					{menuItems.map((item, index) => (
-						<NavbarMenuItem key={`${item}-${index}`}>
-							<Link className="w-full" href={menuURL[index]}>
-								{item}
-							</Link>
-						</NavbarMenuItem>
-					))}
-				</NavbarMenu>
 			</Navbar>
-		</>
+		</div>
 	);
 }

@@ -1,5 +1,15 @@
 {
 	"WillLuke.nextjs.addTypesOnSave": true,
 	"WillLuke.nextjs.hasPrompted": true,
-	"cSpell.words": ["nextui"]
+	"cSpell.words": ["nextui"],
+	"prettier.jsxSingleQuote": true,
+	"prettier.bracketSpacing": false,
+	"prettier.singleQuote": true,
+	"prettier.tabWidth": 4,
+	"prettier.useTabs": true,
+	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"editor.defaultFoldingRangeProvider": "esbenp.prettier-vscode",
+	"prettier.semi": false,
+	"prettier.trailingComma": "es5",
+	"prettier.singleAttributePerLine": true
 }
