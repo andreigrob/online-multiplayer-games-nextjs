@@ -1,24 +1,27 @@
-import {menuI} from './navList';
+import {menuI} from './navList'
 import {
 	Navbar,
 	NavbarBrand,
 	NavbarContent,
 	NavbarItem,
-	Button
-} from '@nextui-org/react';
+	Button,
+} from '@nextui-org/react'
 
-import Link from 'next/link';
+import Link from 'next/link'
 
-import AvatarComponent from './Avatar';
-import NavMenu from './NavMenu';
+import AvatarComponent from './Avatar'
+import NavMenu from './NavMenu'
 
 export default function Nav(): React.JSX.Element {
-	let str: string;
+	let str: string
 	return (
 		<div className="w-full font-sans text-xl mx-auto my-4 items-end">
 			<Navbar className="w-full">
 				<NavbarBrand>
-					<Link href="/" className="font-bold">
+					<Link
+						href="/"
+						className="font-bold"
+					>
 						Game Platform
 					</Link>
 				</NavbarBrand>
@@ -44,5 +47,5 @@ export default function Nav(): React.JSX.Element {
 				</NavbarContent>
 			</Navbar>
 		</div>
-	);
+	)
 }

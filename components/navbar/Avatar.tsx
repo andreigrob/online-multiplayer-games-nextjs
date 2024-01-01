@@ -1,20 +1,20 @@
-'use client';
+'use client'
 import {
 	DropdownItem,
 	DropdownTrigger,
 	Dropdown,
 	DropdownMenu,
-	Button
-} from '@nextui-org/react';
-import Image from 'next/image';
-import {useSession, signIn, signOut} from 'next-auth/react';
-import Link from 'next/link';
+	Button,
+} from '@nextui-org/react'
+import Image from 'next/image'
+import {useSession, signIn, signOut} from 'next-auth/react'
+import Link from 'next/link'
 
 export default function AvatarComponent(): React.JSX.Element {
-	const {data: session} = useSession();
+	const {data: session} = useSession()
 	{
 		if (session) {
-			let user = session.user;
+			let user = session.user
 			return (
 				<Dropdown placement="bottom-end">
 					<DropdownTrigger>
@@ -38,8 +38,14 @@ export default function AvatarComponent(): React.JSX.Element {
 							className="hover:cursor-pointer rounded-full"
 						/>
 					</DropdownTrigger>
-					<DropdownMenu aria-label="Profile Actions" variant="flat">
-						<DropdownItem key="profile" className="h-14 gap-2">
+					<DropdownMenu
+						aria-label="Profile Actions"
+						variant="flat"
+					>
+						<DropdownItem
+							key="profile"
+							className="h-14 gap-2"
+						>
 							<p className="font-semibold">Signed in as</p>
 							<p className="font-semibold">{user?.email!}</p>
 						</DropdownItem>
@@ -53,22 +59,21 @@ export default function AvatarComponent(): React.JSX.Element {
 						</DropdownItem>
 					</DropdownMenu>
 				</Dropdown>
-			);
+			)
 		} else {
 			return (
 				<Button
-					as={Link}
 					color="primary"
 					onClick={async () =>
 						await signIn('google', {
-							callbackUrl: '/game'
+							callbackUrl: '/game',
 						})
 					}
 					variant="flat"
 				>
 					Login
 				</Button>
-			);
+			)
 		}
 	}
 }
