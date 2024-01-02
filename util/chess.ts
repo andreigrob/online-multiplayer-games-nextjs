@@ -1,6 +1,10 @@
 import {Player} from '@/components/chess/BoardTypes'
 
-export function isPlayerPiece(player: Player, piece: string): boolean {
+export function isPlayerPiece(
+	player: Player,
+	piece: string | undefined
+): boolean {
+	if (piece == undefined) return false
 	if (player === Player.One) {
 		return isLower(piece)
 	} else {

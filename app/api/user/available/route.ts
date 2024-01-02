@@ -1,41 +1,38 @@
-import { NextRequest, NextResponse } from 'next/server';
-
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import {NextRequest, NextResponse} from 'next/server'
+import {prisma} from '@/app/api/lib'
 
 async function createGame(id: string, gameType: number) {
-	const timeAvailable = 60 * 1000;
-	let currentTime = new Date(Date.now() + timeAvailable);
+	const timeAvailable = 60 * 1000
+	let currentTime = new Date(Date.now() + timeAvailable)
 	await prisma.availableUsers.upsert({
 		where: {
 			id: id,
-			gameType: gameType
+			gameType: gameType,
 		},
 		update: {
-			available: currentTime
+			available: currentTime,
 		},
-		create: { id: id, available: currentTime, gameType: gameType }
-	});
+		create: {id: id, available: currentTime, gameType: gameType},
+	})
 }
 
 export async function POST(request: NextRequest) {
-	const { id, gameType } = await request.json();
+	const {id, gameType} = await request.json()
 
 	return await createGame(id, gameType)
 		.then(async () => {
-			await prisma.$disconnect();
+			await prisma.$disconnect()
 			return NextResponse.json(
-				{ message: 'User available.' },
-				{ status: 200 }
-			);
+				{message: 'User available.'},
+				{status: 200}
+			)
 		})
 		.catch(async (e) => {
-			console.error(e);
-			await prisma.$disconnect();
+			console.error(e)
+			await prisma.$disconnect()
 			return NextResponse.json(
-				{ message: 'Error updating user availability.' },
-				{ status: 400 }
-			);
-		});
+				{message: 'Error updating user availability.'},
+				{status: 400}
+			)
+		})
 }

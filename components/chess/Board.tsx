@@ -2,7 +2,7 @@
 import {Dispatch, SetStateAction, createContext, useState} from 'react'
 import BoardSquare from './BoardSquare'
 import {ChessE, SquareColour, Player} from './BoardTypes'
-import {isEmpty, isLower, isOther} from '@/util/chess'
+import {isEmpty, isLower, isOther, isPlayerPiece} from '@/util/chess'
 import {StaticImport} from 'next/dist/shared/lib/get-img-props'
 import pawnB from '@/public/chessImg/P.svg'
 import pawnW from '@/public/chessImg/p_w.svg'
@@ -303,16 +303,20 @@ export default function ChessBoard({
 	}
 	if (click == 2) {
 		console.log('square2: ' + square2.x + ',' + square2.y)
-		const found = moves.findIndex((p) => {
-			console.log('p: ' + p?.x + ',' + p?.y)
-			return square2.equals(p)
-		})
-		console.log('Found: ' + found)
-		if (found != -1) {
-			setMoveSquare(square2)
-			nextPlayer()
+		if (isPlayerPiece(player, cb.get(square2).piece)) {
+			setSquare(square2)
 		} else {
-			setSquare(np)
+			const found = moves.findIndex((p) => {
+				console.log('p: ' + p?.x + ',' + p?.y)
+				return square2.equals(p)
+			})
+			console.log('Found: ' + found)
+			if (found != -1) {
+				setMoveSquare(square2)
+				nextPlayer()
+			} else {
+				setSquare(np)
+			}
 		}
 		setClick(0)
 	}
