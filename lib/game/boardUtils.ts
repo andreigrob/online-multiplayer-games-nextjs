@@ -1,4 +1,4 @@
-import {Player} from '@/components/chess/BoardTypes'
+import {Player} from '@/lib/game/types'
 
 export function isPlayerPiece(
 	player: Player,

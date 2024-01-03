@@ -17,8 +17,8 @@ const authOptions: AuthOptions = {
 	session: {strategy: 'jwt'},
 }
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
-	return NextAuth(req, res, authOptions)
+function handler(req: NextRequest, res: NextApiResponse) {
+	return NextAuth(req as unknown as NextApiRequest, res, authOptions)
 }
 
 export {handler as GET, handler as POST}

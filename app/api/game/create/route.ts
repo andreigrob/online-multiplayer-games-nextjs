@@ -3,7 +3,7 @@ import {chessBoard} from '@/components/chess/chess'
 import {prisma} from '@/app/api/lib'
 
 async function createGame(player1: string, player2: string, gameType: number) {
-	let currentTime = new Date()
+	const currentTime = new Date()
 	await prisma.game.create({
 		data: {
 			player1: player1,
@@ -12,7 +12,7 @@ async function createGame(player1: string, player2: string, gameType: number) {
 			started: currentTime,
 		},
 	})
-	let createdGame1 = await prisma.game.findFirst({
+	const createdGame1 = await prisma.game.findFirst({
 		where: {
 			AND: {
 				player1: player1,

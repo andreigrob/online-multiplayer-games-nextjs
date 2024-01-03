@@ -3,7 +3,7 @@ import {prisma} from '@/app/api/lib'
 
 async function createGame(id: string, gameType: number) {
 	const timeAvailable = 60 * 1000
-	let currentTime = new Date(Date.now() + timeAvailable)
+	const currentTime = new Date(Date.now() + timeAvailable)
 	await prisma.availableUsers.upsert({
 		where: {
 			id: id,

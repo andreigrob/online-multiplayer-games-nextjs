@@ -1,10 +1,11 @@
 'use client'
-import {ChessBoardContext, Point, np} from './Board'
+import {ChessBoardContext} from './Board'
 import Image from 'next/image'
-import {SquareColour} from './BoardTypes'
 import {useContext} from 'react'
-import {isPiece, isPlayerPiece} from '@/util/chess'
+import {isPlayerPiece} from '@/lib/game/boardUtils'
 import {StaticImport} from 'next/dist/shared/lib/get-img-props'
+import {SquareColour} from '@/lib/game/types'
+import {Point} from '@/lib/game/point'
 export default function BoardSquare({
 	x,
 	y,
@@ -18,7 +19,7 @@ export default function BoardSquare({
 	text: string
 	img: StaticImport | undefined
 }): React.JSX.Element {
-	let c = useContext(ChessBoardContext)
+	const context = useContext(ChessBoardContext)
 	let squareClass =
 		'w-20 h-20 border-gray-800 item-center justify-center border '
 	if (x == 0) {
@@ -48,26 +49,27 @@ export default function BoardSquare({
 			squareClass += 'bg-blue-300 text-black '
 			break
 	}
-	function onclickF(e: any) {
-		switch (c.click) {
+	function squareClickHandler(event: React.MouseEvent<HTMLElement>) {
+		event
+		switch (context.click) {
 			case 0:
-				if (isPlayerPiece(c.player!, text)) {
-					c.setSquare(new Point(x, y))
-					c.setMoveSquare(np)
-					c.setClick(1)
+				if (isPlayerPiece(context.player!, text)) {
+					context.setSquare(new Point(x, y))
+					context.setMoveSquare(undefined)
+					context.setClick(1)
 				}
 				break
 			case 1:
-				c.setSquare2(new Point(x, y))
+				context.setSquare2(new Point(x, y))
 				console.log('_______x: ' + x + ',' + y)
-				c.setClick(2)
+				context.setClick(2)
 				break
 		}
 	}
 	return (
 		<div
 			className={squareClass}
-			onClick={onclickF}
+			onClick={squareClickHandler}
 		>
 			{img ? (
 				<Image
