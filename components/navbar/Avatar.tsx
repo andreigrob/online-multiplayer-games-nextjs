@@ -9,7 +9,7 @@ import {
 import Image from 'next/image'
 import {useSession, signIn, signOut} from 'next-auth/react'
 
-export default function AvatarComponent(): React.JSX.Element {
+export default function AvatarComponent(): JSX.Element {
 	const {data: session} = useSession()
 	const user = session && session.user
 

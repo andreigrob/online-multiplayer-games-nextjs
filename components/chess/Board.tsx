@@ -70,7 +70,7 @@ export default function ChessBoard({
 	chessArray,
 }: {
 	chessArray: string[][]
-}): React.JSX.Element {
+}): JSX.Element {
 	++n
 	console.log('** ' + n)
 	const [square, setSquare] = useState<Point>()

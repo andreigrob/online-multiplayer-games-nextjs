@@ -9,7 +9,7 @@ import Image from 'next/image'
 import book from '@/public/book.jpg'
 import {menuI} from './navList'
 
-export default function NavMenu(): React.JSX.Element {
+export default function NavMenu(): JSX.Element {
 	return (
 		<Dropdown>
 			<DropdownTrigger>

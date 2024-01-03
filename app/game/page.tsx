@@ -1,3 +1,3 @@
-export default function Game(): React.JSX.Element {
-	return <p>Game Page</p>;
+export default async function Game(): Promise<JSX.Element> {
+	return <p>Game Page</p>
 }

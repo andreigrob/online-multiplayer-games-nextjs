@@ -18,7 +18,7 @@ export default function BoardSquare({
 	colour: SquareColour
 	text: string
 	img: StaticImport | undefined
-}): React.JSX.Element {
+}): JSX.Element {
 	const context = useContext(ChessBoardContext)
 	let squareClass =
 		'w-20 h-20 border-gray-800 item-center justify-center border '

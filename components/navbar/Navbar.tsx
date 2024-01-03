@@ -12,7 +12,7 @@ import Link from 'next/link'
 import AvatarComponent from './Avatar'
 import NavMenu from './NavMenu'
 
-export default function Nav(): React.JSX.Element {
+export default function Nav(): JSX.Element {
 	let str: string
 	return (
 		<div className="w-full font-sans text-xl mx-auto my-4 items-end">
