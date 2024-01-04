@@ -1,16 +1,22 @@
 import {isEmpty} from '@/lib/game/boardUtils'
 import {Point} from '@/lib/game/point'
 import {SquareModel} from '@/lib/game/squareModel'
-import {AvailableType, SquareColour, callbackHandler} from '@/lib/game/types'
+import {
+	AvailableType,
+	SquareColour,
+	callbackHandler,
+	u,
+	ud,
+} from '@/lib/game/types'
 
 export class BoardModel {
 	private board = new Array<Array<SquareModel>>(0)
 	constructor(public xSize: number, public ySize: number) {}
-	get(p: Point | undefined): SquareModel | undefined {
-		if (p !== undefined && p.y !== undefined && p.x !== undefined) {
-			return this.board[p.y][p.x]
+	get(p: Point | u): SquareModel | u {
+		if (p === ud || p.y === ud || p.x === ud || !this.isOnBoard(p)) {
+			return undefined
 		}
-		return undefined
+		return this.board[p.y][p.x]
 	}
 	setPiece(p: Point, piece: string): void {
 		if (p !== undefined) {
@@ -40,9 +46,9 @@ export class BoardModel {
 	}
 
 	isAvailable(p: Point, pieceP: Point): AvailableType {
-		if (p === undefined || pieceP === undefined)
+		if (!this.isOnBoard(pieceP) || !this.isOnBoard(p)) {
 			return AvailableType.Unavailable
-		if (!this.isOnBoard(p)) return AvailableType.Unavailable
+		}
 		return AvailableType.Available
 	}
 	check(p2: Point, pieceP: Point, moves: Point[]): AvailableType {

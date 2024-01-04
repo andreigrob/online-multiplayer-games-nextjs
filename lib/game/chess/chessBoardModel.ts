@@ -2,7 +2,7 @@ import {BoardModel} from '@/lib/game/boardModel'
 import {isLower, isOther} from '@/lib/game/boardUtils'
 import {ChessPiece} from '@/lib/game/chess/chessTypes'
 import {Point} from '@/lib/game/point'
-import {AvailableType, validMovesFunction} from '@/lib/game/types'
+import {AvailableType, u, ud, validMovesFunction} from '@/lib/game/types'
 
 const chessSize = 8
 
@@ -11,10 +11,14 @@ export class ChessBoardModel extends BoardModel {
 		super(chessSize, chessSize)
 	}
 	isAvailable(p: Point, pieceP: Point): AvailableType {
-		if (p === undefined || pieceP === undefined)
+		if (super.isAvailable(p, pieceP) === AvailableType.Unavailable) {
 			return AvailableType.Unavailable
-		if (!this.isOnBoard(p)) return AvailableType.Unavailable
-		const piece = this.get(pieceP)!.piece
+		}
+		const square = this.get(pieceP)
+		if (square === ud) {
+			return AvailableType.Unavailable
+		}
+		const piece = square.piece
 		const pieceL = piece.toLowerCase()
 		if (
 			this.isEmpty(p) &&
@@ -30,8 +34,8 @@ export class ChessBoardModel extends BoardModel {
 			? AvailableType.OccupiedByEnemy
 			: AvailableType.Unavailable
 	}
-	moves(p: Point | undefined): Point[] {
-		if (p === undefined) return []
+	moves(p: Point | u): Point[] {
+		if (p === ud) return []
 		const piece = this.get(p)!.piece
 		const pieceL = piece.toLowerCase()
 		let moves = new Array<Point>(0)
@@ -65,7 +69,7 @@ export class ChessBoardModel extends BoardModel {
 	}
 
 	pawnValidMoves: validMovesFunction = (board, p, moves) => {
-		if (p === undefined) return []
+		if (p === ud) return []
 		const piece = board.get(p)!.piece
 		let deltaY = 1
 		let startY = 1
@@ -88,10 +92,10 @@ export class ChessBoardModel extends BoardModel {
 		return moves
 	}
 	knightValidMoves: validMovesFunction = (board, p, moves) => {
-		if (p === undefined) return []
+		if (p === ud) return []
 		const x = p.x!,
 			y = p.y!
-		const knight = (deltaX: number, deltaY: number) => {
+		const knight = (deltaX: number, deltaY: number): void => {
 			const newP1 = new Point(x + deltaX, y + deltaY)
 			this.check(newP1, p, moves)
 			const newP2 = new Point(x + deltaX, y - deltaY)
@@ -101,43 +105,65 @@ export class ChessBoardModel extends BoardModel {
 			const newP4 = new Point(x - deltaX, y - deltaY)
 			this.check(newP4, p, moves)
 		}
-		knight(1, 2)
-		knight(2, 1)
+		const directions = [
+			[1, 2],
+			[2, 1],
+		]
+		directions.forEach(([x, y]) => {
+			knight(x, y)
+		})
 		return moves
 	}
 
-	// Function for queen, bioship and rook
+	// Function for queen, bishop and rook
 	travel(
 		directionX: number,
 		directionY: number,
 		p: Point,
 		moves: Point[]
 	): void {
-		const x = p.x!,
-			y = p.y!
+		if (p.x == ud || p.y == ud) {
+			return
+		}
+		const x = p.x,
+			y = p.y
 		for (let delta = 1; ; ++delta) {
 			const newX = x + directionX * delta,
 				newY = y + directionY * delta
 			const newP = new Point(newX, newY)
-			if (this.check(newP, p, moves) != 1) {
+			if (this.check(newP, p, moves) != AvailableType.Available) {
 				break
 			}
 		}
 	}
 	bishopValidMoves: validMovesFunction = (board, p, moves) => {
-		if (p === undefined) return []
-		this.travel(1, 1, p, moves)
-		this.travel(1, -1, p, moves)
-		this.travel(-1, 1, p, moves)
-		this.travel(-1, -1, p, moves)
+		if (p === ud) {
+			return []
+		}
+		const directions = [
+			[1, 1],
+			[1, -1],
+			[-1, 1],
+			[-1, -1],
+		]
+		directions.forEach(([x, y]) => {
+			this.travel(x, y, p, moves)
+		})
 		return moves
 	}
 	rookValidMoves: validMovesFunction = (board, p, moves) => {
-		if (p === undefined) return []
-		this.travel(0, 1, p, moves)
-		this.travel(0, -1, p, moves)
-		this.travel(1, 0, p, moves)
-		this.travel(-1, 0, p, moves)
+		if (p === ud) {
+			return []
+		}
+		const directions = [
+			[0, 1],
+			[0, -1],
+			[1, 0],
+			[-1, 0],
+		]
+		directions.forEach(([x, y]) => {
+			this.travel(x, y, p, moves)
+		})
 		return moves
 	}
 	queenValidMoves: validMovesFunction = (board, p, moves) => {
@@ -146,9 +172,9 @@ export class ChessBoardModel extends BoardModel {
 		return moves
 	}
 	kingValidMoves: validMovesFunction = (board, p, moves) => {
-		if (p === undefined) return []
-		const x = p.x!,
-			y = p.y!
+		if (p === ud || p.x == ud || p.y == ud) return []
+		const x = p.x,
+			y = p.y
 		for (let newY = y - 1; newY <= y + 1; ++newY) {
 			for (let newX = x - 1; newX <= x + 1; ++newX) {
 				const newP = new Point(newX, newY)

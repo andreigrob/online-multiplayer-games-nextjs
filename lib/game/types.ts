@@ -31,3 +31,6 @@ export type validMovesFunction = (
 	p: Point,
 	moves: Point[]
 ) => Point[]
+
+export type u = undefined
+export const ud = undefined
